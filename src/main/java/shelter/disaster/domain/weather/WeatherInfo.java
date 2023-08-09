@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class WeatherInfo {
-    private MainInfo main;
-    private List<Weather> weather;
+    private List<Current> currents;
+    private List<Hourly> hourlies;
 }

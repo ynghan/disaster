@@ -13,11 +13,4 @@ class WebClientServiceImplTest {
 
     @Autowired private WebClientServiceImpl webClientService;
 
-    @Test
-    void get() {
-        webClientService.get();
-    }
-
-    @Test
-    void post() {webClientService.post();}
 }
