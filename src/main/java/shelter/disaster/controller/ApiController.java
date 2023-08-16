@@ -7,32 +7,41 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class ApiController {
 
+    @GetMapping("/apitest")
+    public String callapihttp() {
+        StringBuffer result = new StringBuffer();
 
-    @GetMapping("/api/get")
-    public ResponseEntity<Map<String, Object>> handleApiGet() {
-        // 여기에 요청을 처리하는 로직을 추가
-        // 예시로 응답 메시지를 생성
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "GET request handled successfully");
+        try {
+            String urlstr = "http://apis.data.go.kr/1741000/TsunamiShelter3/getTsunamiShelter1List?" +
+                    "ServiceKey=cdt%2FWJxFZhiTfIABX5WQ3Aa5Zh1GeZU5Qx140UQFmRGcS92SHL2JeWTZ7fsWVaPoPzMdhJJJ7xHBR7QjqA0dCQ%3D%3D" +
+                    "&type=json" +
+                    "&pageNo=1" +
+                    "&numOfRows=10";
+            URL url = new URL(urlstr);
+            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
+            urlconnection.setRequestMethod("GET");
 
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+            BufferedReader br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
+
+            String returnLine;
+            while((returnLine = br.readLine()) != null) {
+                result.append(returnLine + "\n");
+            }
+            urlconnection.disconnect();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result + "</xmp>";
+    }
     }
 
-    @PostMapping("/api/post")
-    public ResponseEntity<Map<String, Object>> handleApiPost(@RequestBody Map<String, Object> requestBody) {
-        // 여기에 요청을 처리하는 로직을 추가
-        // requestBody를 사용하여 원하는 동작을 수행
-
-        // 예시로 응답 메시지를 생성
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("message", "API request handled successfully");
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
-    }
-}

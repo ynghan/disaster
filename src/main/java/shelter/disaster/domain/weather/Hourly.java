@@ -6,8 +6,6 @@ import java.util.List;
 
 @Data
 public class Hourly {
-
     private List<Weather> weathers;
     private double temp;
-
 }

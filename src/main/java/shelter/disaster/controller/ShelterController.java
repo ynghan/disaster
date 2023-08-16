@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import shelter.disaster.domain.Shelter;
+import shelter.disaster.domain.shelter.Shelter;
 import shelter.disaster.service.ShelterService;
 
 import java.math.BigDecimal;
@@ -31,6 +32,14 @@ public class ShelterController {
         List<ShelterDto> collect = findShelters.stream().map(s -> new ShelterDto(s.getLatitude(), s.getLongitude()))
                 .collect(Collectors.toList());
         return new Result(collect);
+    }
+
+    @GetMapping("/api/v3/shelters")
+    public List<Shelter> sheltersV3(@RequestParam double latitude, double longitude) {
+
+        double distance = 1.5;
+
+        return shelterService.findByLocation(latitude, longitude, distance);
     }
 
 

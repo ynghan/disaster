@@ -1,6 +1,7 @@
 package shelter.disaster.domain.weather;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.Entity;
 import java.util.List;
